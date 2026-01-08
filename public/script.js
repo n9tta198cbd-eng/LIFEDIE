@@ -1,105 +1,122 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const form = document.getElementById('calendar-form');
-    const deviceSelect = document.getElementById('device');
-    const customSizeDiv = document.getElementById('custom-size');
-    const widthInput = document.getElementById('width');
-    const heightInput = document.getElementById('height');
-    const resultDiv = document.getElementById('result');
-    const generatedLinkInput = document.getElementById('generated-link');
+    // Elements
+    const openModalBtn = document.getElementById('open-modal');
+    const closeModalBtn = document.getElementById('close-modal');
+    const modalOverlay = document.getElementById('modal-overlay');
+    const generatedUrlInput = document.getElementById('generated-url');
     const copyBtn = document.getElementById('copy-btn');
-    const previewImg = document.getElementById('preview-img');
-    const previewLink = document.getElementById('preview-link');
+
+    // Form fields
+    const goalInput = document.getElementById('goal');
+    const startYear = document.getElementById('start-year');
+    const startMonth = document.getElementById('start-month');
+    const startDay = document.getElementById('start-day');
+    const deadlineYear = document.getElementById('deadline-year');
+    const deadlineMonth = document.getElementById('deadline-month');
+    const deadlineDay = document.getElementById('deadline-day');
+    const deviceSelect = document.getElementById('device');
 
     // Device presets
     const presets = {
-        '1320x2868': { w: 1320, h: 2868 }, // iPhone 16 Pro Max
-        '1206x2622': { w: 1206, h: 2622 }, // iPhone 16 Pro
-        '1290x2796': { w: 1290, h: 2796 }, // iPhone 15/14 Pro Max
-        '1179x2556': { w: 1179, h: 2556 }, // iPhone 15/14 Pro
-        '1170x2532': { w: 1170, h: 2532 }, // iPhone 14/13/12
+        '1320x2868': { w: 1320, h: 2868 },
+        '1206x2622': { w: 1206, h: 2622 },
+        '1179x2556': { w: 1179, h: 2556 },
+        '1290x2796': { w: 1290, h: 2796 },
+        '1170x2532': { w: 1170, h: 2532 },
     };
 
-    // Toggle custom size inputs
-    deviceSelect.addEventListener('change', () => {
-        if (deviceSelect.value === 'custom') {
-            customSizeDiv.style.display = 'block';
-        } else {
-            customSizeDiv.style.display = 'none';
-            const preset = presets[deviceSelect.value];
-            if (preset) {
-                widthInput.value = preset.w;
-                heightInput.value = preset.h;
-            }
+    // Set default dates
+    const today = new Date();
+    startYear.value = today.getFullYear();
+    startMonth.value = String(today.getMonth() + 1).padStart(2, '0');
+    startDay.value = String(today.getDate()).padStart(2, '0');
+
+    const nextMonth = new Date(today);
+    nextMonth.setMonth(nextMonth.getMonth() + 1);
+    deadlineYear.value = nextMonth.getFullYear();
+    deadlineMonth.value = String(nextMonth.getMonth() + 1).padStart(2, '0');
+    deadlineDay.value = String(nextMonth.getDate()).padStart(2, '0');
+
+    // Open modal
+    openModalBtn.addEventListener('click', () => {
+        modalOverlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        updateUrl();
+    });
+
+    // Close modal
+    closeModalBtn.addEventListener('click', closeModal);
+    modalOverlay.addEventListener('click', (e) => {
+        if (e.target === modalOverlay) {
+            closeModal();
         }
     });
 
-    // Form submit
-    form.addEventListener('submit', (e) => {
-        e.preventDefault();
+    function closeModal() {
+        modalOverlay.classList.remove('active');
+        document.body.style.overflow = '';
+    }
 
-        const birth = document.getElementById('birth').value;
-        const lifespan = document.getElementById('lifespan').value;
-
-        let w, h;
-        if (deviceSelect.value === 'custom') {
-            w = widthInput.value;
-            h = heightInput.value;
-        } else {
-            const preset = presets[deviceSelect.value];
-            w = preset.w;
-            h = preset.h;
+    // Close on Escape
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modalOverlay.classList.contains('active')) {
+            closeModal();
         }
+    });
 
-        // Build URL - use /api/generate for Vercel
+    // Update URL when any field changes
+    const allInputs = [goalInput, startYear, startMonth, startDay, deadlineYear, deadlineMonth, deadlineDay, deviceSelect];
+    allInputs.forEach(input => {
+        input.addEventListener('input', updateUrl);
+        input.addEventListener('change', updateUrl);
+    });
+
+    function updateUrl() {
+        const goal = goalInput.value || 'My Goal';
+        const start = `${startYear.value}-${pad(startMonth.value)}-${pad(startDay.value)}`;
+        const deadline = `${deadlineYear.value}-${pad(deadlineMonth.value)}-${pad(deadlineDay.value)}`;
+        const preset = presets[deviceSelect.value];
+        const w = preset.w;
+        const h = preset.h;
+
         const baseUrl = window.location.origin;
         const params = new URLSearchParams({
-            birth: birth,
-            lifespan: lifespan,
+            goal: goal,
+            start: start,
+            deadline: deadline,
             w: w,
             h: h
         });
 
-        const fullUrl = `${baseUrl}/api/generate?${params.toString()}`;
+        generatedUrlInput.value = `${baseUrl}/api/generate?${params.toString()}`;
+    }
 
-        // Show result
-        generatedLinkInput.value = fullUrl;
-        resultDiv.style.display = 'block';
-
-        // Update preview (smaller version)
-        const previewParams = new URLSearchParams({
-            birth: birth,
-            lifespan: lifespan,
-            w: Math.min(w, 400),
-            h: Math.round(Math.min(w, 400) * (h / w))
-        });
-        const previewUrl = `${baseUrl}/api/generate?${previewParams.toString()}`;
-        previewImg.src = previewUrl;
-        previewLink.href = fullUrl;
-
-        // Scroll to result
-        resultDiv.scrollIntoView({ behavior: 'smooth' });
-    });
+    function pad(num) {
+        return String(num).padStart(2, '0');
+    }
 
     // Copy to clipboard
     copyBtn.addEventListener('click', async () => {
         try {
-            await navigator.clipboard.writeText(generatedLinkInput.value);
-            copyBtn.textContent = 'Copied!';
-            copyBtn.classList.add('copied');
-            setTimeout(() => {
-                copyBtn.textContent = 'Copy';
-                copyBtn.classList.remove('copied');
-            }, 2000);
+            await navigator.clipboard.writeText(generatedUrlInput.value);
+            showCopied();
         } catch (err) {
             // Fallback
-            generatedLinkInput.select();
+            generatedUrlInput.select();
             document.execCommand('copy');
-            copyBtn.textContent = 'Copied!';
-            copyBtn.classList.add('copied');
-            setTimeout(() => {
-                copyBtn.textContent = 'Copy';
-                copyBtn.classList.remove('copied');
-            }, 2000);
+            showCopied();
         }
     });
+
+    function showCopied() {
+        copyBtn.classList.add('copied');
+        copyBtn.innerHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
+        setTimeout(() => {
+            copyBtn.classList.remove('copied');
+            copyBtn.innerHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>`;
+        }, 2000);
+    }
+
+    // Initial URL generation
+    updateUrl();
 });

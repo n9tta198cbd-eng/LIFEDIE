@@ -7,80 +7,115 @@
     <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-    <div class="container">
+    <!-- Main page with button to open modal -->
+    <div class="landing">
         <h1>Life Calendar</h1>
-        <p class="subtitle">Your life in weeks. Every box is one week.</p>
+        <p>Visualize your goals on your lock screen</p>
+        <button class="btn btn-primary" id="open-modal">Get Started</button>
+    </div>
 
-        <form id="calendar-form">
-            <div class="form-group">
-                <label for="birth">Date of Birth</label>
-                <input type="date" id="birth" name="birth" required>
-            </div>
+    <!-- Modal -->
+    <div class="modal-overlay" id="modal-overlay">
+        <div class="modal">
+            <div class="modal-handle"></div>
 
-            <div class="form-group">
-                <label for="lifespan">Life Expectancy</label>
-                <select id="lifespan" name="lifespan">
-                    <option value="80">80 years</option>
-                    <option value="90" selected>90 years</option>
-                    <option value="100">100 years</option>
-                </select>
-            </div>
+            <h1>Installation Steps</h1>
+            <p class="modal-subtitle">First, define your wallpaper settings. Then create an automation to run daily. Finally, add the shortcut actions to update your lock screen.</p>
 
-            <div class="form-group">
-                <label for="device">Device</label>
-                <select id="device" name="device">
-                    <option value="1320x2868">iPhone 16 Pro Max</option>
-                    <option value="1206x2622">iPhone 16 Pro</option>
-                    <option value="1290x2796" selected>iPhone 15 Pro Max</option>
-                    <option value="1179x2556">iPhone 15 Pro</option>
-                    <option value="1290x2796">iPhone 14 Pro Max</option>
-                    <option value="1179x2556">iPhone 14 Pro</option>
-                    <option value="1170x2532">iPhone 14 / 13 / 12</option>
-                    <option value="custom">Custom size</option>
-                </select>
-            </div>
+            <!-- Step 1 -->
+            <div class="step">
+                <div class="step-header">
+                    <span class="step-number">1</span>
+                    <h2>Define your Wallpaper</h2>
+                </div>
 
-            <div class="form-group custom-size" id="custom-size" style="display: none;">
-                <div class="size-inputs">
-                    <div>
-                        <label for="width">Width (px)</label>
-                        <input type="number" id="width" name="width" value="1290" min="100" max="5000">
+                <form id="wallpaper-form">
+                    <div class="form-group">
+                        <label>Goal</label>
+                        <input type="text" id="goal" placeholder="Enter your goal" required>
                     </div>
-                    <div>
-                        <label for="height">Height (px)</label>
-                        <input type="number" id="height" name="height" value="2796" min="100" max="5000">
+
+                    <div class="form-group">
+                        <label>Start Date</label>
+                        <div class="date-inputs">
+                            <input type="number" id="start-year" placeholder="2026" min="1900" max="2100" required>
+                            <input type="number" id="start-month" placeholder="01" min="1" max="12" required>
+                            <input type="number" id="start-day" placeholder="01" min="1" max="31" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Deadline</label>
+                        <div class="date-inputs">
+                            <input type="number" id="deadline-year" placeholder="2026" min="1900" max="2100" required>
+                            <input type="number" id="deadline-month" placeholder="02" min="1" max="12" required>
+                            <input type="number" id="deadline-day" placeholder="01" min="1" max="31" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>iPhone Model</label>
+                        <select id="device">
+                            <option value="1320x2868">iPhone 16 Pro Max</option>
+                            <option value="1206x2622">iPhone 16 Pro</option>
+                            <option value="1179x2556" selected>iPhone 15 / 15 Pro / 16</option>
+                            <option value="1290x2796">iPhone 14 Pro Max / 15 Plus</option>
+                            <option value="1170x2532">iPhone 14 / 13 / 12</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="step">
+                <div class="step-header">
+                    <span class="step-number">2</span>
+                    <h2>Create Automation</h2>
+                </div>
+
+                <div class="instruction-box">
+                    <p>Open <a href="shortcuts://automation" class="link">Shortcuts</a> app → Go to <strong>Automation</strong> tab → New Automation → <strong>Time of Day</strong> → 6:00 AM → Repeat <strong>"Daily"</strong> → Select <strong>"Run Immediately"</strong> → <strong>"Create New Shortcut"</strong></p>
+                </div>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="step">
+                <div class="step-header">
+                    <span class="step-number">3</span>
+                    <h2>Create Shortcut</h2>
+                </div>
+
+                <div class="instruction-box">
+                    <p class="action-label">ADD THESE ACTIONS:</p>
+
+                    <div class="action-item">
+                        <span>3.1</span>
+                        <p><strong>"Get Contents of URL"</strong> → paste the following URL there:</p>
+                    </div>
+
+                    <div class="url-box">
+                        <input type="text" id="generated-url" readonly>
+                        <button type="button" id="copy-btn" class="btn-copy">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <div class="action-item">
+                        <span>3.2</span>
+                        <p><strong>"Set Wallpaper Photo"</strong> → choose <strong>"Lock Screen"</strong></p>
+                    </div>
+
+                    <div class="important-box">
+                        <p><strong>Important:</strong> In "Set Wallpaper Photo", tap the arrow (→) to show options → disable both <strong>"Crop to Subject"</strong> and <strong>"Show Preview"</strong>.</p>
+                        <p class="important-note">This prevents iOS from cropping and asking for confirmation each time</p>
                     </div>
                 </div>
             </div>
 
-            <button type="submit" class="btn">Generate Link</button>
-        </form>
-
-        <div id="result" class="result" style="display: none;">
-            <h2>Your Calendar Link</h2>
-            <div class="link-container">
-                <input type="text" id="generated-link" readonly>
-                <button type="button" id="copy-btn" class="btn-copy">Copy</button>
-            </div>
-            <p class="hint">Open this link to download your wallpaper or use it in iPhone Shortcuts.</p>
-
-            <div class="preview">
-                <h3>Preview</h3>
-                <a id="preview-link" href="#" target="_blank">
-                    <img id="preview-img" src="" alt="Calendar Preview">
-                </a>
-            </div>
-        </div>
-
-        <div class="instructions">
-            <h2>How to use with iPhone Shortcuts</h2>
-            <ol>
-                <li>Generate your personal link above</li>
-                <li>Create a new Shortcut on your iPhone</li>
-                <li>Add action: "Get Contents of URL" with your link</li>
-                <li>Add action: "Set Wallpaper"</li>
-                <li>Set the shortcut to run daily via Automation</li>
-            </ol>
+            <button class="btn btn-close" id="close-modal">Close</button>
         </div>
     </div>
 
