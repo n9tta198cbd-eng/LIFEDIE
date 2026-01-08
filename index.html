@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Life Calendar</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Life Calendar</h1>
+        <p class="subtitle">Your life in weeks. Every box is one week.</p>
+
+        <form id="calendar-form">
+            <div class="form-group">
+                <label for="birth">Date of Birth</label>
+                <input type="date" id="birth" name="birth" required>
+            </div>
+
+            <div class="form-group">
+                <label for="lifespan">Life Expectancy</label>
+                <select id="lifespan" name="lifespan">
+                    <option value="80">80 years</option>
+                    <option value="90" selected>90 years</option>
+                    <option value="100">100 years</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="device">Device</label>
+                <select id="device" name="device">
+                    <option value="1320x2868">iPhone 16 Pro Max</option>
+                    <option value="1206x2622">iPhone 16 Pro</option>
+                    <option value="1290x2796" selected>iPhone 15 Pro Max</option>
+                    <option value="1179x2556">iPhone 15 Pro</option>
+                    <option value="1290x2796">iPhone 14 Pro Max</option>
+                    <option value="1179x2556">iPhone 14 Pro</option>
+                    <option value="1170x2532">iPhone 14 / 13 / 12</option>
+                    <option value="custom">Custom size</option>
+                </select>
+            </div>
+
+            <div class="form-group custom-size" id="custom-size" style="display: none;">
+                <div class="size-inputs">
+                    <div>
+                        <label for="width">Width (px)</label>
+                        <input type="number" id="width" name="width" value="1290" min="100" max="5000">
+                    </div>
+                    <div>
+                        <label for="height">Height (px)</label>
+                        <input type="number" id="height" name="height" value="2796" min="100" max="5000">
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="btn">Generate Link</button>
+        </form>
+
+        <div id="result" class="result" style="display: none;">
+            <h2>Your Calendar Link</h2>
+            <div class="link-container">
+                <input type="text" id="generated-link" readonly>
+                <button type="button" id="copy-btn" class="btn-copy">Copy</button>
+            </div>
+            <p class="hint">Open this link to download your wallpaper or use it in iPhone Shortcuts.</p>
+
+            <div class="preview">
+                <h3>Preview</h3>
+                <a id="preview-link" href="#" target="_blank">
+                    <img id="preview-img" src="" alt="Calendar Preview">
+                </a>
+            </div>
+        </div>
+
+        <div class="instructions">
+            <h2>How to use with iPhone Shortcuts</h2>
+            <ol>
+                <li>Generate your personal link above</li>
+                <li>Create a new Shortcut on your iPhone</li>
+                <li>Add action: "Get Contents of URL" with your link</li>
+                <li>Add action: "Set Wallpaper"</li>
+                <li>Set the shortcut to run daily via Automation</li>
+            </ol>
+        </div>
+    </div>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>
