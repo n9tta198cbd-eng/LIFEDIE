@@ -7,9 +7,6 @@ document.addEventListener('DOMContentLoaded', () => {
         '1290x2796': { w: 1290, h: 2796 },
     };
 
-    // Generate preview dots
-    generatePreviewDots();
-
     // Modal handling
     document.querySelectorAll('[data-modal]').forEach(btn => {
         btn.addEventListener('click', () => {
@@ -148,33 +145,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function pad(n) {
         return String(n).padStart(2, '0');
-    }
-
-    function generatePreviewDots() {
-        // Life dots (52x20 = 1040 weeks ~ 20 years shown)
-        const lifeDots = document.querySelector('.life-dots');
-        for (let i = 0; i < 52 * 20; i++) {
-            const dot = document.createElement('div');
-            dot.className = 'dot' + (i < 52 * 8 ? ' filled' : '');
-            lifeDots.appendChild(dot);
-        }
-
-        // Year dots (14x26 = 364 days)
-        const yearDots = document.querySelector('.year-dots');
-        const dayOfYear = Math.floor((today - new Date(today.getFullYear(), 0, 0)) / 86400000);
-        for (let i = 0; i < 14 * 26; i++) {
-            const dot = document.createElement('div');
-            dot.className = 'dot' + (i < dayOfYear ? ' filled' : i === dayOfYear ? ' current' : '');
-            yearDots.appendChild(dot);
-        }
-
-        // Goal dots (7x10 = 70 days)
-        const goalDots = document.querySelector('.goal-dots');
-        for (let i = 0; i < 7 * 10; i++) {
-            const dot = document.createElement('div');
-            dot.className = 'dot' + (i < 5 ? ' filled' : i === 5 ? ' current' : '');
-            goalDots.appendChild(dot);
-        }
     }
 
     // Initial URL generation
