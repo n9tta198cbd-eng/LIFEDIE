@@ -29,11 +29,11 @@ def generate_life_calendar(birth_str: str, lifespan: int, w: int, h: int) -> byt
 
     # Padding for iPhone clock at top
     clock_padding = h * 0.12
-    title_area = h * 0.06
-    axis_padding_left = w * 0.08
-    axis_padding_top = h * 0.03
-    padding_bottom = h * 0.08
-    padding_right = w * 0.04
+    title_area = h * 0.05
+    axis_padding_left = w * 0.05
+    axis_padding_top = h * 0.02
+    padding_bottom = h * 0.06
+    padding_right = w * 0.02
 
     grid_start_x = axis_padding_left
     grid_start_y = clock_padding + title_area + axis_padding_top
@@ -44,7 +44,7 @@ def generate_life_calendar(birth_str: str, lifespan: int, w: int, h: int) -> byt
     cell_h = grid_height / rows
     cell_size = min(cell_w, cell_h)
 
-    gap = cell_size * 0.15
+    gap = cell_size * 0.08
     dot_size = cell_size - gap
 
     actual_grid_width = cols * cell_size
@@ -99,22 +99,18 @@ def generate_life_calendar(birth_str: str, lifespan: int, w: int, h: int) -> byt
             else:
                 color = future_color
 
-            radius = dot_size * 0.12 if dot_size >= 3 else 0
-            if radius > 0:
-                draw.rounded_rectangle([x, y, x + dot_size, y + dot_size], radius=radius, fill=color)
-            else:
-                draw.rectangle([x, y, x + dot_size, y + dot_size], fill=color)
+            draw.rectangle([x, y, x + dot_size, y + dot_size], fill=color)
 
-    # Draw logo at bottom center (simple circle with dot - minimalist)
-    logo_size = int(w * 0.04)
+    # Draw logo at bottom center
+    logo_size = int(w * 0.035)
     logo_x = w / 2
-    logo_y = h - padding_bottom * 0.5
+    logo_y = h - padding_bottom * 0.4
     draw.ellipse([logo_x - logo_size/2, logo_y - logo_size/2,
                   logo_x + logo_size/2, logo_y + logo_size/2],
-                 outline=(80, 80, 80), width=2)
-    dot_r = logo_size * 0.15
-    draw.ellipse([logo_x + logo_size*0.2 - dot_r, logo_y - logo_size*0.2 - dot_r,
-                  logo_x + logo_size*0.2 + dot_r, logo_y - logo_size*0.2 + dot_r],
+                 outline=(80, 80, 80), width=int(logo_size * 0.05))
+    dot_r = logo_size * 0.12
+    draw.ellipse([logo_x + logo_size*0.18 - dot_r, logo_y - logo_size*0.18 - dot_r,
+                  logo_x + logo_size*0.18 + dot_r, logo_y - logo_size*0.18 + dot_r],
                  fill=(80, 80, 80))
 
     buffer = BytesIO()
@@ -144,7 +140,7 @@ def generate_year_calendar(w: int, h: int) -> bytes:
     clock_padding = h * 0.12
     title_area = h * 0.06
     padding_x = w * 0.08
-    padding_bottom = h * 0.1
+    padding_bottom = h * 0.06
 
     grid_start_y = clock_padding + title_area
     grid_width = w - (2 * padding_x)
@@ -158,7 +154,7 @@ def generate_year_calendar(w: int, h: int) -> bytes:
     cell_h = grid_height / rows
     cell_size = min(cell_w, cell_h)
 
-    gap = cell_size * 0.12
+    gap = cell_size * 0.08
     dot_size = cell_size - gap
 
     actual_grid_width = cols * cell_size
@@ -206,11 +202,19 @@ def generate_year_calendar(w: int, h: int) -> bytes:
         else:
             color = future_color
 
-        radius = dot_size * 0.12 if dot_size >= 3 else 0
-        if radius > 0:
-            draw.rounded_rectangle([x, y, x + dot_size, y + dot_size], radius=radius, fill=color)
-        else:
-            draw.rectangle([x, y, x + dot_size, y + dot_size], fill=color)
+        draw.rectangle([x, y, x + dot_size, y + dot_size], fill=color)
+
+    # Draw logo at bottom center
+    logo_size = int(w * 0.035)
+    logo_x = w / 2
+    logo_y = h - padding_bottom * 0.4
+    draw.ellipse([logo_x - logo_size/2, logo_y - logo_size/2,
+                  logo_x + logo_size/2, logo_y + logo_size/2],
+                 outline=(80, 80, 80), width=int(logo_size * 0.05))
+    dot_r = logo_size * 0.12
+    draw.ellipse([logo_x + logo_size*0.18 - dot_r, logo_y - logo_size*0.18 - dot_r,
+                  logo_x + logo_size*0.18 + dot_r, logo_y - logo_size*0.18 + dot_r],
+                 fill=(80, 80, 80))
 
     buffer = BytesIO()
     img.save(buffer, format="PNG", optimize=True)
@@ -243,7 +247,7 @@ def generate_goal_calendar(goal: str, start_str: str, deadline_str: str, w: int,
     clock_padding = h * 0.12
     title_area = h * 0.06
     padding_x = w * 0.08
-    padding_bottom = h * 0.1
+    padding_bottom = h * 0.06
 
     grid_start_y = clock_padding + title_area
     grid_width = w - (2 * padding_x)
@@ -258,7 +262,7 @@ def generate_goal_calendar(goal: str, start_str: str, deadline_str: str, w: int,
     cell_h = grid_height / rows
     cell_size = min(cell_w, cell_h)
 
-    gap = cell_size * 0.12
+    gap = cell_size * 0.08
     dot_size = cell_size - gap
 
     actual_grid_width = cols * cell_size
@@ -299,11 +303,19 @@ def generate_goal_calendar(goal: str, start_str: str, deadline_str: str, w: int,
         else:
             color = future_color
 
-        radius = dot_size * 0.12 if dot_size >= 3 else 0
-        if radius > 0:
-            draw.rounded_rectangle([x, y, x + dot_size, y + dot_size], radius=radius, fill=color)
-        else:
-            draw.rectangle([x, y, x + dot_size, y + dot_size], fill=color)
+        draw.rectangle([x, y, x + dot_size, y + dot_size], fill=color)
+
+    # Draw logo at bottom center
+    logo_size = int(w * 0.035)
+    logo_x = w / 2
+    logo_y = h - padding_bottom * 0.4
+    draw.ellipse([logo_x - logo_size/2, logo_y - logo_size/2,
+                  logo_x + logo_size/2, logo_y + logo_size/2],
+                 outline=(80, 80, 80), width=int(logo_size * 0.05))
+    dot_r = logo_size * 0.12
+    draw.ellipse([logo_x + logo_size*0.18 - dot_r, logo_y - logo_size*0.18 - dot_r,
+                  logo_x + logo_size*0.18 + dot_r, logo_y - logo_size*0.18 + dot_r],
+                 fill=(80, 80, 80))
 
     buffer = BytesIO()
     img.save(buffer, format="PNG", optimize=True)
