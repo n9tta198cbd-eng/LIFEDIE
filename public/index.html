@@ -3,119 +3,292 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Life Calendar</title>
+    <title>.Solutions weeks wallpaper</title>
     <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-    <!-- Main page with button to open modal -->
-    <div class="landing">
-        <h1>Life Calendar</h1>
-        <p>Visualize your goals on your lock screen</p>
-        <button class="btn btn-primary" id="open-modal">Get Started</button>
-    </div>
+    <!-- Header -->
+    <header class="header">
+        <div class="logo">.solutions weeks</div>
+    </header>
 
-    <!-- Modal -->
-    <div class="modal-overlay" id="modal-overlay">
+    <!-- Hero -->
+    <section class="hero">
+        <h1>.Solutions weeks wallpaper</h1>
+        <p>Create beautiful iPhone wallpapers that visualize your time. Track your life in weeks, year progress, or countdown to goals.</p>
+    </section>
+
+    <!-- Cards -->
+    <section class="cards">
+        <!-- Life Calendar -->
+        <div class="card">
+            <div class="phone-preview">
+                <div class="phone-frame">
+                    <div class="phone-notch"></div>
+                    <div class="phone-content life-preview">
+                        <span class="preview-label">LIFE IN WEEKS</span>
+                        <div class="dots-grid life-dots"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-info">
+                <span class="card-subtitle">YOUR LIFE IN WEEKS</span>
+                <h2>Life Calendar</h2>
+                <p>Visualize your entire life as a grid of weeks. See how much time you've spent and what's ahead.</p>
+                <button class="btn" data-modal="life">Create Wallpaper</button>
+            </div>
+        </div>
+
+        <!-- Year Calendar -->
+        <div class="card">
+            <div class="phone-preview">
+                <div class="phone-frame">
+                    <div class="phone-notch"></div>
+                    <div class="phone-content year-preview">
+                        <span class="preview-year">2026</span>
+                        <div class="dots-grid year-dots"></div>
+                        <span class="preview-days">358 days left</span>
+                    </div>
+                </div>
+            </div>
+            <div class="card-info">
+                <span class="card-subtitle">THIS YEAR'S PROGRESS</span>
+                <h2>Year Calendar</h2>
+                <p>Track the current year's progress day by day or week by week. Stay mindful of time passing.</p>
+                <button class="btn" data-modal="year">Create Wallpaper</button>
+            </div>
+        </div>
+
+        <!-- Goal Calendar -->
+        <div class="card">
+            <div class="phone-preview">
+                <div class="phone-frame">
+                    <div class="phone-notch"></div>
+                    <div class="phone-content goal-preview">
+                        <span class="preview-label">GOAL</span>
+                        <div class="dots-grid goal-dots"></div>
+                        <span class="preview-days">65 DAYS TO GO</span>
+                    </div>
+                </div>
+            </div>
+            <div class="card-info">
+                <span class="card-subtitle">COUNTDOWN TO YOUR GOAL</span>
+                <h2>Goal Calendar</h2>
+                <p>Set a target date and watch your progress. Perfect for deadlines, events, or personal milestones.</p>
+                <button class="btn" data-modal="goal">Create Wallpaper</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>Create mindful wallpapers for your iPhone</p>
+    </footer>
+
+    <!-- Modal: Life Calendar -->
+    <div class="modal-overlay" id="modal-life">
         <div class="modal">
             <div class="modal-handle"></div>
+            <h1>Life Calendar</h1>
+            <p class="modal-subtitle">Visualize your entire life in weeks. Each box represents one week of your life.</p>
 
-            <h1>Installation Steps</h1>
-            <p class="modal-subtitle">First, define your wallpaper settings. Then create an automation to run daily. Finally, add the shortcut actions to update your lock screen.</p>
-
-            <!-- Step 1 -->
             <div class="step">
                 <div class="step-header">
                     <span class="step-number">1</span>
-                    <h2>Define your Wallpaper</h2>
+                    <h2>Configure</h2>
                 </div>
-
-                <form id="wallpaper-form">
+                <form id="life-form">
                     <div class="form-group">
-                        <label>Goal</label>
-                        <input type="text" id="goal" placeholder="Enter your goal" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Start Date</label>
+                        <label>Date of Birth</label>
                         <div class="date-inputs">
-                            <input type="number" id="start-year" placeholder="2026" min="1900" max="2100" required>
-                            <input type="number" id="start-month" placeholder="01" min="1" max="12" required>
-                            <input type="number" id="start-day" placeholder="01" min="1" max="31" required>
+                            <input type="number" id="life-year" placeholder="1990" min="1900" max="2025" required>
+                            <input type="number" id="life-month" placeholder="01" min="1" max="12" required>
+                            <input type="number" id="life-day" placeholder="01" min="1" max="31" required>
                         </div>
                     </div>
-
                     <div class="form-group">
-                        <label>Deadline</label>
-                        <div class="date-inputs">
-                            <input type="number" id="deadline-year" placeholder="2026" min="1900" max="2100" required>
-                            <input type="number" id="deadline-month" placeholder="02" min="1" max="12" required>
-                            <input type="number" id="deadline-day" placeholder="01" min="1" max="31" required>
-                        </div>
+                        <label>Life Expectancy</label>
+                        <select id="life-expectancy">
+                            <option value="80">80 years</option>
+                            <option value="90" selected>90 years</option>
+                            <option value="100">100 years</option>
+                        </select>
                     </div>
-
                     <div class="form-group">
                         <label>iPhone Model</label>
-                        <select id="device">
+                        <select id="life-device">
                             <option value="1320x2868">iPhone 16 Pro Max</option>
                             <option value="1206x2622">iPhone 16 Pro</option>
                             <option value="1179x2556" selected>iPhone 15 / 15 Pro / 16</option>
                             <option value="1290x2796">iPhone 14 Pro Max / 15 Plus</option>
-                            <option value="1170x2532">iPhone 14 / 13 / 12</option>
                         </select>
                     </div>
                 </form>
             </div>
 
-            <!-- Step 2 -->
             <div class="step">
                 <div class="step-header">
                     <span class="step-number">2</span>
                     <h2>Create Automation</h2>
                 </div>
-
                 <div class="instruction-box">
-                    <p>Open <a href="shortcuts://automation" class="link">Shortcuts</a> app → Go to <strong>Automation</strong> tab → New Automation → <strong>Time of Day</strong> → 6:00 AM → Repeat <strong>"Daily"</strong> → Select <strong>"Run Immediately"</strong> → <strong>"Create New Shortcut"</strong></p>
+                    <p>Open <a href="shortcuts://automation" class="link">Shortcuts</a> app → <strong>Automation</strong> → New → <strong>Time of Day</strong> → 6:00 AM → Repeat <strong>"Daily"</strong> → <strong>"Run Immediately"</strong> → <strong>"Create New Shortcut"</strong></p>
                 </div>
             </div>
 
-            <!-- Step 3 -->
             <div class="step">
                 <div class="step-header">
                     <span class="step-number">3</span>
                     <h2>Create Shortcut</h2>
                 </div>
-
                 <div class="instruction-box">
                     <p class="action-label">ADD THESE ACTIONS:</p>
-
-                    <div class="action-item">
-                        <span>3.1</span>
-                        <p><strong>"Get Contents of URL"</strong> → paste the following URL there:</p>
-                    </div>
-
+                    <div class="action-item"><span>3.1</span><p><strong>"Get Contents of URL"</strong> → paste URL:</p></div>
                     <div class="url-box">
-                        <input type="text" id="generated-url" readonly>
-                        <button type="button" id="copy-btn" class="btn-copy">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                            </svg>
-                        </button>
+                        <input type="text" id="life-url" readonly>
+                        <button type="button" class="btn-copy" data-target="life-url"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
                     </div>
-
-                    <div class="action-item">
-                        <span>3.2</span>
-                        <p><strong>"Set Wallpaper Photo"</strong> → choose <strong>"Lock Screen"</strong></p>
-                    </div>
-
+                    <div class="action-item"><span>3.2</span><p><strong>"Set Wallpaper Photo"</strong> → <strong>"Lock Screen"</strong></p></div>
                     <div class="important-box">
-                        <p><strong>Important:</strong> In "Set Wallpaper Photo", tap the arrow (→) to show options → disable both <strong>"Crop to Subject"</strong> and <strong>"Show Preview"</strong>.</p>
-                        <p class="important-note">This prevents iOS from cropping and asking for confirmation each time</p>
+                        <p><strong>Important:</strong> In "Set Wallpaper Photo", tap arrow → disable <strong>"Crop to Subject"</strong> and <strong>"Show Preview"</strong>.</p>
                     </div>
                 </div>
             </div>
+            <button class="btn btn-close" data-close>Close</button>
+        </div>
+    </div>
 
-            <button class="btn btn-close" id="close-modal">Close</button>
+    <!-- Modal: Year Calendar -->
+    <div class="modal-overlay" id="modal-year">
+        <div class="modal">
+            <div class="modal-handle"></div>
+            <h1>Year Calendar</h1>
+            <p class="modal-subtitle">Track your year's progress. Each box represents one day of the current year.</p>
+
+            <div class="step">
+                <div class="step-header">
+                    <span class="step-number">1</span>
+                    <h2>Configure</h2>
+                </div>
+                <form id="year-form">
+                    <div class="form-group">
+                        <label>iPhone Model</label>
+                        <select id="year-device">
+                            <option value="1320x2868">iPhone 16 Pro Max</option>
+                            <option value="1206x2622">iPhone 16 Pro</option>
+                            <option value="1179x2556" selected>iPhone 15 / 15 Pro / 16</option>
+                            <option value="1290x2796">iPhone 14 Pro Max / 15 Plus</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+
+            <div class="step">
+                <div class="step-header">
+                    <span class="step-number">2</span>
+                    <h2>Create Automation</h2>
+                </div>
+                <div class="instruction-box">
+                    <p>Open <a href="shortcuts://automation" class="link">Shortcuts</a> app → <strong>Automation</strong> → New → <strong>Time of Day</strong> → 6:00 AM → Repeat <strong>"Daily"</strong> → <strong>"Run Immediately"</strong> → <strong>"Create New Shortcut"</strong></p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-header">
+                    <span class="step-number">3</span>
+                    <h2>Create Shortcut</h2>
+                </div>
+                <div class="instruction-box">
+                    <p class="action-label">ADD THESE ACTIONS:</p>
+                    <div class="action-item"><span>3.1</span><p><strong>"Get Contents of URL"</strong> → paste URL:</p></div>
+                    <div class="url-box">
+                        <input type="text" id="year-url" readonly>
+                        <button type="button" class="btn-copy" data-target="year-url"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
+                    </div>
+                    <div class="action-item"><span>3.2</span><p><strong>"Set Wallpaper Photo"</strong> → <strong>"Lock Screen"</strong></p></div>
+                    <div class="important-box">
+                        <p><strong>Important:</strong> In "Set Wallpaper Photo", tap arrow → disable <strong>"Crop to Subject"</strong> and <strong>"Show Preview"</strong>.</p>
+                    </div>
+                </div>
+            </div>
+            <button class="btn btn-close" data-close>Close</button>
+        </div>
+    </div>
+
+    <!-- Modal: Goal Calendar -->
+    <div class="modal-overlay" id="modal-goal">
+        <div class="modal">
+            <div class="modal-handle"></div>
+            <h1>Goal Calendar</h1>
+            <p class="modal-subtitle">Countdown to your goal. Each box represents one day until your deadline.</p>
+
+            <div class="step">
+                <div class="step-header">
+                    <span class="step-number">1</span>
+                    <h2>Configure</h2>
+                </div>
+                <form id="goal-form">
+                    <div class="form-group">
+                        <label>Goal Name</label>
+                        <input type="text" id="goal-name" placeholder="My Goal" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Start Date</label>
+                        <div class="date-inputs">
+                            <input type="number" id="goal-start-year" placeholder="2026" required>
+                            <input type="number" id="goal-start-month" placeholder="01" required>
+                            <input type="number" id="goal-start-day" placeholder="01" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Deadline</label>
+                        <div class="date-inputs">
+                            <input type="number" id="goal-end-year" placeholder="2026" required>
+                            <input type="number" id="goal-end-month" placeholder="12" required>
+                            <input type="number" id="goal-end-day" placeholder="31" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>iPhone Model</label>
+                        <select id="goal-device">
+                            <option value="1320x2868">iPhone 16 Pro Max</option>
+                            <option value="1206x2622">iPhone 16 Pro</option>
+                            <option value="1179x2556" selected>iPhone 15 / 15 Pro / 16</option>
+                            <option value="1290x2796">iPhone 14 Pro Max / 15 Plus</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+
+            <div class="step">
+                <div class="step-header">
+                    <span class="step-number">2</span>
+                    <h2>Create Automation</h2>
+                </div>
+                <div class="instruction-box">
+                    <p>Open <a href="shortcuts://automation" class="link">Shortcuts</a> app → <strong>Automation</strong> → New → <strong>Time of Day</strong> → 6:00 AM → Repeat <strong>"Daily"</strong> → <strong>"Run Immediately"</strong> → <strong>"Create New Shortcut"</strong></p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-header">
+                    <span class="step-number">3</span>
+                    <h2>Create Shortcut</h2>
+                </div>
+                <div class="instruction-box">
+                    <p class="action-label">ADD THESE ACTIONS:</p>
+                    <div class="action-item"><span>3.1</span><p><strong>"Get Contents of URL"</strong> → paste URL:</p></div>
+                    <div class="url-box">
+                        <input type="text" id="goal-url" readonly>
+                        <button type="button" class="btn-copy" data-target="goal-url"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
+                    </div>
+                    <div class="action-item"><span>3.2</span><p><strong>"Set Wallpaper Photo"</strong> → <strong>"Lock Screen"</strong></p></div>
+                    <div class="important-box">
+                        <p><strong>Important:</strong> In "Set Wallpaper Photo", tap arrow → disable <strong>"Crop to Subject"</strong> and <strong>"Show Preview"</strong>.</p>
+                    </div>
+                </div>
+            </div>
+            <button class="btn btn-close" data-close>Close</button>
         </div>
     </div>
 
