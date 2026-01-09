@@ -30,41 +30,35 @@ def generate_life_calendar(birth_str: str, lifespan: int, w: int, h: int) -> byt
     # Padding for iPhone clock at top
     clock_padding = h * 0.12
     title_area = h * 0.05
-    axis_padding_left = w * 0.05
-    axis_padding_top = h * 0.02
-    padding_bottom = h * 0.06
-    padding_right = w * 0.02
+    padding_x = w * 0.08
+    padding_bottom = h * 0.08
 
-    grid_start_x = axis_padding_left
-    grid_start_y = clock_padding + title_area + axis_padding_top
-    grid_width = w - axis_padding_left - padding_right
+    grid_start_y = clock_padding + title_area
+    grid_width = w - (2 * padding_x)
     grid_height = h - grid_start_y - padding_bottom
 
     cell_w = grid_width / cols
     cell_h = grid_height / rows
     cell_size = min(cell_w, cell_h)
 
-    gap = cell_size * 0.08
+    gap = cell_size * 0.3
     dot_size = cell_size - gap
 
     actual_grid_width = cols * cell_size
     actual_grid_height = rows * cell_size
 
-    # Center grid horizontally considering left axis
-    offset_x = axis_padding_left + (grid_width - actual_grid_width) / 2
-    offset_y = grid_start_y
+    # Center grid
+    offset_x = (w - actual_grid_width) / 2
+    offset_y = grid_start_y + (grid_height - actual_grid_height) / 2
 
     # Load fonts
     try:
         title_font = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", int(w * 0.038))
-        axis_font = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", int(w * 0.018))
     except:
         try:
             title_font = ImageFont.truetype("arial.ttf", int(w * 0.038))
-            axis_font = ImageFont.truetype("arial.ttf", int(w * 0.018))
         except:
             title_font = ImageFont.load_default()
-            axis_font = title_font
 
     # Draw title
     title = "Your life in weeks."
@@ -73,33 +67,21 @@ def generate_life_calendar(birth_str: str, lifespan: int, w: int, h: int) -> byt
     title_y = clock_padding + (title_area - bbox[3]) / 2
     draw.text((title_x, title_y), title, fill=(255, 255, 255), font=title_font)
 
-    # Draw top axis (week numbers: 5, 10, 15... 50)
-    for week_label in range(5, 51, 5):
-        x = offset_x + (week_label - 0.5) * cell_size
-        label = str(week_label)
-        bbox = draw.textbbox((0, 0), label, font=axis_font)
-        draw.text((x - bbox[2] / 2, offset_y - axis_padding_top * 0.8), label, fill=text_color, font=axis_font)
-
-    # Draw left axis (year numbers: 5, 10, 15... lifespan)
-    for year_label in range(5, lifespan + 1, 5):
-        y = offset_y + (year_label - 0.5) * cell_size
-        label = str(year_label)
-        bbox = draw.textbbox((0, 0), label, font=axis_font)
-        draw.text((offset_x - bbox[2] - cell_size * 0.5, y - bbox[3] / 2), label, fill=text_color, font=axis_font)
-
-    # Draw weeks grid
+    # Draw weeks grid - circles instead of rectangles
     for year in range(rows):
         for week in range(cols):
             week_num = year * 52 + week
-            x = offset_x + week * cell_size + gap / 2
-            y = offset_y + year * cell_size + gap / 2
+            center_x = offset_x + week * cell_size + cell_size / 2
+            center_y = offset_y + year * cell_size + cell_size / 2
+            radius = dot_size / 2
 
             if week_num < lived_weeks:
                 color = lived_color
             else:
                 color = future_color
 
-            draw.rectangle([x, y, x + dot_size, y + dot_size], fill=color)
+            draw.ellipse([center_x - radius, center_y - radius,
+                         center_x + radius, center_y + radius], fill=color)
 
     # Draw logo at bottom center
     logo_size = int(w * 0.035)
@@ -140,7 +122,7 @@ def generate_year_calendar(w: int, h: int) -> bytes:
     clock_padding = h * 0.12
     title_area = h * 0.06
     padding_x = w * 0.08
-    padding_bottom = h * 0.06
+    padding_bottom = h * 0.08
 
     grid_start_y = clock_padding + title_area
     grid_width = w - (2 * padding_x)
@@ -154,7 +136,7 @@ def generate_year_calendar(w: int, h: int) -> bytes:
     cell_h = grid_height / rows
     cell_size = min(cell_w, cell_h)
 
-    gap = cell_size * 0.08
+    gap = cell_size * 0.3
     dot_size = cell_size - gap
 
     actual_grid_width = cols * cell_size
@@ -185,7 +167,7 @@ def generate_year_calendar(w: int, h: int) -> bytes:
     bbox2 = draw.textbbox((0, 0), days_text, font=small_font)
     draw.text(((w - bbox2[2]) / 2, h - padding_bottom * 0.5), days_text, fill=text_color, font=small_font)
 
-    # Draw days (column = week number, row = day of week)
+    # Draw days (column = week number, row = day of week) - circles
     for day_num in range(total_days):
         day_date = year_start + timedelta(days=day_num)
         week_num = day_date.isocalendar()[1] - 1
@@ -194,15 +176,17 @@ def generate_year_calendar(w: int, h: int) -> bytes:
         if week_num >= cols:
             week_num = cols - 1
 
-        x = offset_x + week_num * cell_size + gap / 2
-        y = offset_y + day_of_week * cell_size + gap / 2
+        center_x = offset_x + week_num * cell_size + cell_size / 2
+        center_y = offset_y + day_of_week * cell_size + cell_size / 2
+        radius = dot_size / 2
 
         if day_num < elapsed_days:
             color = passed_color
         else:
             color = future_color
 
-        draw.rectangle([x, y, x + dot_size, y + dot_size], fill=color)
+        draw.ellipse([center_x - radius, center_y - radius,
+                     center_x + radius, center_y + radius], fill=color)
 
     # Draw logo at bottom center
     logo_size = int(w * 0.035)
@@ -247,7 +231,7 @@ def generate_goal_calendar(goal: str, start_str: str, deadline_str: str, w: int,
     clock_padding = h * 0.12
     title_area = h * 0.06
     padding_x = w * 0.08
-    padding_bottom = h * 0.06
+    padding_bottom = h * 0.08
 
     grid_start_y = clock_padding + title_area
     grid_width = w - (2 * padding_x)
@@ -262,7 +246,7 @@ def generate_goal_calendar(goal: str, start_str: str, deadline_str: str, w: int,
     cell_h = grid_height / rows
     cell_size = min(cell_w, cell_h)
 
-    gap = cell_size * 0.08
+    gap = cell_size * 0.3
     dot_size = cell_size - gap
 
     actual_grid_width = cols * cell_size
@@ -291,19 +275,21 @@ def generate_goal_calendar(goal: str, start_str: str, deadline_str: str, w: int,
     bbox2 = draw.textbbox((0, 0), days_text, font=small_font)
     draw.text(((w - bbox2[2]) / 2, h - padding_bottom * 0.5), days_text, fill=text_color, font=small_font)
 
-    # Draw days
+    # Draw days - circles
     for i in range(total_days):
         row = i // cols
         col = i % cols
-        x = offset_x + col * cell_size + gap / 2
-        y = offset_y + row * cell_size + gap / 2
+        center_x = offset_x + col * cell_size + cell_size / 2
+        center_y = offset_y + row * cell_size + cell_size / 2
+        radius = dot_size / 2
 
         if i < elapsed_days:
             color = passed_color
         else:
             color = future_color
 
-        draw.rectangle([x, y, x + dot_size, y + dot_size], fill=color)
+        draw.ellipse([center_x - radius, center_y - radius,
+                     center_x + radius, center_y + radius], fill=color)
 
     # Draw logo at bottom center
     logo_size = int(w * 0.035)
