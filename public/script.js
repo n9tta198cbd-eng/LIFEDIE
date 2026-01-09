@@ -1,10 +1,13 @@
 document.addEventListener('DOMContentLoaded', () => {
     const baseUrl = window.location.origin;
     const presets = {
-        '1320x2868': { w: 1320, h: 2868 },
-        '1206x2622': { w: 1206, h: 2622 },
+        '1080x2340': { w: 1080, h: 2340 },
+        '1170x2532': { w: 1170, h: 2532 },
+        '1284x2778': { w: 1284, h: 2778 },
         '1179x2556': { w: 1179, h: 2556 },
         '1290x2796': { w: 1290, h: 2796 },
+        '1206x2622': { w: 1206, h: 2622 },
+        '1320x2868': { w: 1320, h: 2868 },
     };
 
     // Modal handling
@@ -68,6 +71,45 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 2000);
     }
 
+    // Date validation
+    function isValidDate(year, month, day) {
+        const y = parseInt(year);
+        const m = parseInt(month);
+        const d = parseInt(day);
+
+        if (isNaN(y) || isNaN(m) || isNaN(d)) return false;
+        if (y < 1900 || y > 2100) return false;
+        if (m < 1 || m > 12) return false;
+        if (d < 1 || d > 31) return false;
+
+        // Check days in month
+        const daysInMonth = new Date(y, m, 0).getDate();
+        if (d > daysInMonth) return false;
+
+        return true;
+    }
+
+    function clampValue(input, min, max) {
+        let val = parseInt(input.value);
+        if (isNaN(val)) return;
+        if (val < min) input.value = min;
+        if (val > max) input.value = max;
+    }
+
+    // Add validation on blur for date inputs
+    document.querySelectorAll('.date-inputs input').forEach(input => {
+        input.addEventListener('blur', () => {
+            const placeholder = input.placeholder;
+            if (placeholder === '1990' || placeholder === '2026') {
+                clampValue(input, 1900, 2100);
+            } else if (placeholder === '01' && input.id.includes('month')) {
+                clampValue(input, 1, 12);
+            } else if (placeholder === '01' || placeholder === '31' || placeholder === '12') {
+                clampValue(input, 1, 31);
+            }
+        });
+    });
+
     // Set default dates
     const today = new Date();
     const nextMonth = new Date(today);
@@ -98,9 +140,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const lifeMonth = document.getElementById('life-month').value;
         const lifeDay = document.getElementById('life-day').value;
         const lifeExpectancy = document.getElementById('life-expectancy').value;
-        const lifeDevice = presets[document.getElementById('life-device').value];
+        const lifeDeviceValue = document.getElementById('life-device').value;
+        const lifeDevice = presets[lifeDeviceValue] || presets['1179x2556'];
 
-        if (lifeYear && lifeMonth && lifeDay) {
+        if (lifeYear && lifeMonth && lifeDay && isValidDate(lifeYear, lifeMonth, lifeDay)) {
             const lifeParams = new URLSearchParams({
                 type: 'life',
                 birth: `${lifeYear}-${pad(lifeMonth)}-${pad(lifeDay)}`,
@@ -109,10 +152,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 h: lifeDevice.h
             });
             document.getElementById('life-url').value = `${baseUrl}/api/generate?${lifeParams}`;
+        } else {
+            document.getElementById('life-url').value = 'Complete step 1 first...';
         }
 
         // Year Calendar URL
-        const yearDevice = presets[document.getElementById('year-device').value];
+        const yearDeviceValue = document.getElementById('year-device').value;
+        const yearDevice = presets[yearDeviceValue] || presets['1179x2556'];
         const yearParams = new URLSearchParams({
             type: 'year',
             w: yearDevice.w,
@@ -128,9 +174,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const goalEndYear = document.getElementById('goal-end-year').value;
         const goalEndMonth = document.getElementById('goal-end-month').value;
         const goalEndDay = document.getElementById('goal-end-day').value;
-        const goalDevice = presets[document.getElementById('goal-device').value];
+        const goalDeviceValue = document.getElementById('goal-device').value;
+        const goalDevice = presets[goalDeviceValue] || presets['1179x2556'];
 
-        if (goalStartYear && goalEndYear) {
+        const startValid = isValidDate(goalStartYear, goalStartMonth, goalStartDay);
+        const endValid = isValidDate(goalEndYear, goalEndMonth, goalEndDay);
+
+        if (startValid && endValid) {
             const goalParams = new URLSearchParams({
                 type: 'goal',
                 goal: goalName,
@@ -140,6 +190,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 h: goalDevice.h
             });
             document.getElementById('goal-url').value = `${baseUrl}/api/generate?${goalParams}`;
+        } else {
+            document.getElementById('goal-url').value = 'Complete step 1 first...';
         }
     }
 
