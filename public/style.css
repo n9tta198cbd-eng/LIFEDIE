@@ -26,6 +26,60 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* Background liquid image with blur */
+body::before {
+    content: '';
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    max-width: 800px;
+    height: auto;
+    aspect-ratio: 600 / 168;
+    background: url('/img-liquid-type.webp') center/contain no-repeat;
+    filter: blur(60px);
+    opacity: 0.4;
+    z-index: -2;
+    pointer-events: none;
+}
+
+/* Animated gradient overlay */
+body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+        45deg,
+        rgba(255, 0, 100, 0.03) 0%,
+        rgba(100, 0, 255, 0.03) 25%,
+        rgba(0, 100, 255, 0.03) 50%,
+        rgba(100, 0, 255, 0.03) 75%,
+        rgba(255, 0, 100, 0.03) 100%
+    );
+    background-size: 400% 400%;
+    animation: gradientShift 15s ease infinite;
+    z-index: -1;
+    pointer-events: none;
+}
+
+@keyframes gradientShift {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
 }
 
 /* Header */
