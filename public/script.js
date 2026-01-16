@@ -161,23 +161,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Set default dates
-    const today = new Date();
-    const nextMonth = new Date(today);
-    nextMonth.setMonth(nextMonth.getMonth() + 3);
-
     // Life form defaults
     document.getElementById('life-year').value = '1990';
     document.getElementById('life-month').value = '01';
     document.getElementById('life-day').value = '01';
-
-    // Goal form defaults
-    document.getElementById('goal-start-year').value = today.getFullYear();
-    document.getElementById('goal-start-month').value = pad(today.getMonth() + 1);
-    document.getElementById('goal-start-day').value = pad(today.getDate());
-    document.getElementById('goal-end-year').value = nextMonth.getFullYear();
-    document.getElementById('goal-end-month').value = pad(nextMonth.getMonth() + 1);
-    document.getElementById('goal-end-day').value = pad(nextMonth.getDate());
 
     // Update URLs on input change
     document.querySelectorAll('input, select').forEach(el => {
@@ -186,7 +173,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     function updateUrls() {
-        // Life Calendar URL
+        // Life Calendar URL (единственный календарь)
         const lifeYear = document.getElementById('life-year').value;
         const lifeMonth = document.getElementById('life-month').value;
         const lifeDay = document.getElementById('life-day').value;
@@ -205,44 +192,6 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('life-url').value = `${baseUrl}/api/generate?${lifeParams}`;
         } else {
             document.getElementById('life-url').value = 'Complete step 1 first...';
-        }
-
-        // Year Calendar URL
-        const yearDeviceValue = document.getElementById('year-device').value;
-        const yearDevice = presets[yearDeviceValue] || presets['1179x2556'];
-        const yearParams = new URLSearchParams({
-            type: 'year',
-            w: yearDevice.w,
-            h: yearDevice.h
-        });
-        document.getElementById('year-url').value = `${baseUrl}/api/generate?${yearParams}`;
-
-        // Goal Calendar URL
-        const goalName = document.getElementById('goal-name').value || 'My Goal';
-        const goalStartYear = document.getElementById('goal-start-year').value;
-        const goalStartMonth = document.getElementById('goal-start-month').value;
-        const goalStartDay = document.getElementById('goal-start-day').value;
-        const goalEndYear = document.getElementById('goal-end-year').value;
-        const goalEndMonth = document.getElementById('goal-end-month').value;
-        const goalEndDay = document.getElementById('goal-end-day').value;
-        const goalDeviceValue = document.getElementById('goal-device').value;
-        const goalDevice = presets[goalDeviceValue] || presets['1179x2556'];
-
-        const startValid = isValidDate(goalStartYear, goalStartMonth, goalStartDay);
-        const endValid = isValidDate(goalEndYear, goalEndMonth, goalEndDay);
-
-        if (startValid && endValid) {
-            const goalParams = new URLSearchParams({
-                type: 'goal',
-                goal: goalName,
-                start: `${goalStartYear}-${pad(goalStartMonth)}-${pad(goalStartDay)}`,
-                deadline: `${goalEndYear}-${pad(goalEndMonth)}-${pad(goalEndDay)}`,
-                w: goalDevice.w,
-                h: goalDevice.h
-            });
-            document.getElementById('goal-url').value = `${baseUrl}/api/generate?${goalParams}`;
-        } else {
-            document.getElementById('goal-url').value = 'Complete step 1 first...';
         }
     }
 
