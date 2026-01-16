@@ -6,56 +6,69 @@
     <title>.Solutions weeks wallpaper</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/style.css">
 </head>
 <body>
+    <!-- Animated Background Canvas -->
+    <canvas id="bg-canvas"></canvas>
+
     <!-- Header -->
     <header class="header">
         <div class="header-content">
-            <a href="/" class="logo">
-                <img src="/logo_white.svg" alt=".solutions weeks" height="32">
-            </a>
+            <nav class="nav">
+                <div class="nav-box nav-box-year">Year 2026</div>
+                <div class="nav-box nav-box-main">
+                    <span>Events</span>
+                    <span>Bar nuen</span>
+                    <span>Pucklerstress 34, 189987 Berlin</span>
+                </div>
+            </nav>
         </div>
     </header>
 
-    <!-- Hero -->
-    <section class="hero">
-        <div class="hero-container">
-            <h1>.Solutions weeks wallpaper</h1>
-            <div class="hero-description">
-                <p>Create beautiful iPhone wallpapers that visualize your time. Track your life in weeks, year progress, or countdown to goals.</p>
+    <!-- Main Content -->
+    <main class="main">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-logo">
+                <img src="/logo_white.svg" alt="Solutions Logo">
             </div>
-        </div>
-    </section>
+            <h1 class="hero-title">SOLUTIONS WEEKS<br>WALLPAPER</h1>
+            <p class="hero-description">Create beautiful iPhone wallpapers that visualize your time. Track your life in weeks, year progress, or countdown to goals.</p>
+        </section>
 
-    <!-- Cards -->
-    <section class="cards">
-        <div class="features-grid">
-            <!-- Life Calendar -->
-            <div class="card">
-                <div class="phone-preview">
+        <!-- Cards Section -->
+        <section class="cards">
+            <!-- Life Calendar Card -->
+            <div class="card" data-modal="life">
+                <div class="card-mockup">
                     <div class="phone-frame">
                         <div class="phone-notch"></div>
                         <div class="phone-content">
-                            <span class="preview-label">LIFE IN WEEKS</span>
+                            <span class="preview-label">YOUR LIFE IN WEEKS.</span>
                             <div class="pixel-grid life-dots"></div>
                         </div>
                     </div>
                 </div>
-                <div class="card-info">
-                    <div class="card-header">
-                        <span class="card-subtitle">YOUR LIFE IN WEEKS</span>
-                        <h2>Life Calendar</h2>
-                    </div>
-                    <p>Visualize your entire life as a grid of weeks. See how much time you've spent and what's ahead.</p>
-                    <button class="btn" data-modal="life">Create Wallpaper</button>
+                <div class="card-content">
+                    <p class="card-subtitle">YOUR LIFE IN WEEKS</p>
+                    <h2 class="card-title">LIFE CALENDAR</h2>
+                    <p class="card-description">Visualize your entire life as a grid of weeks. See how much time you've spent and what's ahead.</p>
+                    <button class="card-button">
+                        <span class="button-wrapper">
+                            <span class="button-back">
+                                <span class="button-blur"></span>
+                                <span class="button-text">Create Wallpaper</span>
+                            </span>
+                        </span>
+                    </button>
                 </div>
             </div>
 
-            <!-- Year Calendar -->
-            <div class="card">
-                <div class="phone-preview">
+            <!-- Year Calendar Card -->
+            <div class="card" data-modal="year">
+                <div class="card-mockup">
                     <div class="phone-frame">
                         <div class="phone-notch"></div>
                         <div class="phone-content">
@@ -65,19 +78,24 @@
                         </div>
                     </div>
                 </div>
-                <div class="card-info">
-                    <div class="card-header">
-                        <span class="card-subtitle">THIS YEAR'S PROGRESS</span>
-                        <h2>Year Calendar</h2>
-                    </div>
-                    <p>Track the current year's progress day by day or week by week. Stay mindful of time passing.</p>
-                    <button class="btn" data-modal="year">Create Wallpaper</button>
+                <div class="card-content">
+                    <p class="card-subtitle">THIS YEAR'S PROGRESS</p>
+                    <h2 class="card-title">YEAR CALENDAR</h2>
+                    <p class="card-description">Track the current year's progress day by day or week by week. Stay mindful of time passing.</p>
+                    <button class="card-button">
+                        <span class="button-wrapper">
+                            <span class="button-back">
+                                <span class="button-blur"></span>
+                                <span class="button-text">Create Wallpaper</span>
+                            </span>
+                        </span>
+                    </button>
                 </div>
             </div>
 
-            <!-- Goal Calendar -->
-            <div class="card">
-                <div class="phone-preview">
+            <!-- Goal Calendar Card -->
+            <div class="card" data-modal="goal">
+                <div class="card-mockup">
                     <div class="phone-frame">
                         <div class="phone-notch"></div>
                         <div class="phone-content">
@@ -87,28 +105,27 @@
                         </div>
                     </div>
                 </div>
-                <div class="card-info">
-                    <div class="card-header">
-                        <span class="card-subtitle">COUNTDOWN TO YOUR GOAL</span>
-                        <h2>Goal Calendar</h2>
-                    </div>
-                    <p>Set a target date and watch your progress. Perfect for deadlines, events, or personal milestones.</p>
-                    <button class="btn" data-modal="goal">Create Wallpaper</button>
+                <div class="card-content">
+                    <p class="card-subtitle">COUNTDOWN TO YOUR GOAL</p>
+                    <h2 class="card-title">GOAL CALENDAR</h2>
+                    <p class="card-description">Set a target date and watch your progress. Perfect for deadlines, events, or personal milestones.</p>
+                    <button class="card-button">
+                        <span class="button-wrapper">
+                            <span class="button-back">
+                                <span class="button-blur"></span>
+                                <span class="button-text">Create Wallpaper</span>
+                            </span>
+                        </span>
+                    </button>
                 </div>
             </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="footer-content">
-            <p>Create mindful wallpapers for your iPhone</p>
-        </div>
-    </footer>
+        </section>
+    </main>
 
     <!-- Modal: Life Calendar -->
     <div class="modal-overlay" id="modal-life">
         <div class="modal">
+            <button class="modal-close" aria-label="Close modal" data-close>&times;</button>
             <div class="modal-handle"></div>
             <h1>Life Calendar</h1>
             <p class="modal-subtitle">Visualize your entire life in weeks. Each box represents one week of your life.</p>
@@ -188,6 +205,7 @@
     <!-- Modal: Year Calendar -->
     <div class="modal-overlay" id="modal-year">
         <div class="modal">
+            <button class="modal-close" aria-label="Close modal" data-close>&times;</button>
             <div class="modal-handle"></div>
             <h1>Year Calendar</h1>
             <p class="modal-subtitle">Track your year's progress. Each box represents one day of the current year.</p>
@@ -251,6 +269,7 @@
     <!-- Modal: Goal Calendar -->
     <div class="modal-overlay" id="modal-goal">
         <div class="modal">
+            <button class="modal-close" aria-label="Close modal" data-close>&times;</button>
             <div class="modal-handle"></div>
             <h1>Goal Calendar</h1>
             <p class="modal-subtitle">Countdown to your goal. Each box represents one day until your deadline.</p>
@@ -331,6 +350,7 @@
         </div>
     </div>
 
+    <script src="/background.js"></script>
     <script src="/script.js"></script>
 </body>
 </html>
