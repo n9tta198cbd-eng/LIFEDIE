@@ -1,4 +1,55 @@
+// Language Toggle
+class LanguageToggle {
+    constructor() {
+        this.currentLang = localStorage.getItem('selectedLanguage') || 'ru';
+        this.init();
+    }
+
+    init() {
+        // Set initial language
+        this.setLanguage(this.currentLang, false);
+
+        // Add click listeners to language buttons
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const lang = btn.dataset.lang;
+                this.setLanguage(lang);
+            });
+        });
+    }
+
+    setLanguage(lang, save = true) {
+        this.currentLang = lang;
+
+        // Update active button
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            if (btn.dataset.lang === lang) {
+                btn.classList.add('active');
+            } else {
+                btn.classList.remove('active');
+            }
+        });
+
+        // Show/hide text based on language
+        document.querySelectorAll('[data-lang-text]').forEach(el => {
+            if (el.dataset.langText === lang) {
+                el.classList.remove('hidden');
+            } else {
+                el.classList.add('hidden');
+            }
+        });
+
+        // Save to localStorage
+        if (save) {
+            localStorage.setItem('selectedLanguage', lang);
+        }
+    }
+}
+
+// Initialize language toggle when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
+    new LanguageToggle();
+
     const baseUrl = window.location.origin;
     const presets = {
         '1080x2340': { w: 1080, h: 2340 },

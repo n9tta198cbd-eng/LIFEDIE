@@ -1,6 +1,6 @@
 /**
- * ANIMATED BACKGROUND - Generative procedural blob animation
- * Creates slow-moving, blurred light blobs on black background
+ * ANIMATED BACKGROUND - LIGHT THEME
+ * Светлые прозрачные blobs на белом фоне
  */
 
 class AnimatedBackground {
@@ -67,19 +67,20 @@ class AnimatedBackground {
                 speedY: this.random(-0.3, 0.3),
                 phase: Math.random() * Math.PI * 2,
                 frequency: this.random(0.001, 0.003),
-                opacity: this.random(0.08, 0.15),
-                color: this.getRandomColor()
+                // LIGHT THEME: очень прозрачные серые blobs
+                opacity: this.random(0.03, 0.05),
+                color: this.getRandomLightColor()
             });
         }
     }
 
-    getRandomColor() {
-        // Серо-белые градиенты с легкими оттенками
+    getRandomLightColor() {
+        // LIGHT THEME: светло-серые цвета
         const colors = [
-            'rgba(255, 255, 255, 1)',
-            'rgba(220, 220, 220, 1)',
-            'rgba(200, 200, 200, 1)',
-            'rgba(180, 180, 180, 1)'
+            'rgba(200, 200, 200, ',
+            'rgba(220, 220, 220, ',
+            'rgba(240, 240, 240, ',
+            'rgba(180, 180, 200, '
         ];
         return colors[Math.floor(Math.random() * colors.length)];
     }
@@ -117,22 +118,23 @@ class AnimatedBackground {
     }
 
     drawFrame() {
-        // Clear canvas
-        this.ctx.clearRect(0, 0, this.width, this.height);
+        // Clear canvas with WHITE background
+        this.ctx.fillStyle = '#FFFFFF';
+        this.ctx.fillRect(0, 0, this.width, this.height);
 
         // Apply blur filter
         this.ctx.filter = 'blur(100px)';
 
-        // Draw blobs
+        // Draw blobs (LIGHT THEME: очень прозрачные)
         this.blobs.forEach(blob => {
             const gradient = this.ctx.createRadialGradient(
                 blob.x, blob.y, 0,
                 blob.x, blob.y, blob.currentRadius || blob.radius
             );
 
-            gradient.addColorStop(0, blob.color.replace('1)', `${blob.opacity})`));
-            gradient.addColorStop(0.5, blob.color.replace('1)', `${blob.opacity * 0.5})`));
-            gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
+            gradient.addColorStop(0, blob.color + blob.opacity + ')');
+            gradient.addColorStop(0.5, blob.color + (blob.opacity * 0.5) + ')');
+            gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
 
             this.ctx.fillStyle = gradient;
             this.ctx.beginPath();

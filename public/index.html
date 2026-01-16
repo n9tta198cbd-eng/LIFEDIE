@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>.Solutions weeks wallpaper</title>
+    <title>.Solutions 0→90</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -13,20 +13,6 @@
     <!-- Animated Background Canvas -->
     <canvas id="bg-canvas"></canvas>
 
-    <!-- Header -->
-    <header class="header">
-        <div class="header-content">
-            <nav class="nav">
-                <div class="nav-box nav-box-year">Year 2026</div>
-                <div class="nav-box nav-box-main">
-                    <span>Events</span>
-                    <span>Bar nuen</span>
-                    <span>Pucklerstress 34, 189987 Berlin</span>
-                </div>
-            </nav>
-        </div>
-    </header>
-
     <!-- Main Content -->
     <main class="main">
         <!-- Hero Section -->
@@ -34,8 +20,35 @@
             <div class="hero-logo">
                 <img src="/logo_white.svg" alt="Solutions Logo">
             </div>
-            <h1 class="hero-title">SOLUTIONS WEEKS<br>WALLPAPER</h1>
-            <p class="hero-description">Create beautiful iPhone wallpapers that visualize your time. Track your life in weeks, year progress, or countdown to goals.</p>
+
+            <h1 class="hero-title">
+                .SOLUTIONS<br>
+                0→90
+            </h1>
+
+            <!-- NEW: Language Toggle -->
+            <div class="language-toggle">
+                <button class="lang-btn active" data-lang="ru">RU</button>
+                <span class="lang-divider">/</span>
+                <button class="lang-btn" data-lang="en">EN</button>
+            </div>
+
+            <!-- NEW: Bilingual Description -->
+            <div class="hero-description-wrapper">
+                <!-- Russian (default) -->
+                <p class="hero-description" data-lang-text="ru">
+                    Создай iPhone-обои, которые обновляются каждый день.
+                    Отслеживай свою жизнь по неделям — от 1 до 90 лет —
+                    и смотри, сколько времени ещё есть.
+                </p>
+
+                <!-- English (hidden by default) -->
+                <p class="hero-description hidden" data-lang-text="en">
+                    Create iPhone wallpapers that update every day.
+                    Track your life in weeks — from 1 to 90 years —
+                    and see how much time you still have.
+                </p>
+            </div>
         </section>
 
         <!-- Cards Section -->
