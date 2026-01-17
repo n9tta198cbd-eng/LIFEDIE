@@ -46,9 +46,155 @@ class LanguageToggle {
     }
 }
 
+// Mobile Theme Toggle
+class MobileThemeToggle {
+    constructor() {
+        this.currentTheme = localStorage.getItem('mobileTheme') || 'black';
+        this.init();
+    }
+
+    init() {
+        const buttons = document.querySelectorAll('.mobile-theme-btn');
+        const createBtn = document.querySelector('.mobile-create-btn');
+
+        if (!buttons.length) return;
+
+        // Set initial theme
+        this.setTheme(this.currentTheme, false);
+
+        // Add click listeners
+        buttons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const theme = btn.dataset.theme;
+                this.setTheme(theme);
+            });
+        });
+    }
+
+    setTheme(theme, save = true) {
+        this.currentTheme = theme;
+
+        // Update active button
+        document.querySelectorAll('.mobile-theme-btn').forEach(btn => {
+            if (btn.dataset.theme === theme) {
+                btn.classList.add('active');
+            } else {
+                btn.classList.remove('active');
+            }
+        });
+
+        // Update button text
+        const createBtn = document.querySelector('.mobile-create-btn');
+        if (createBtn) {
+            if (theme === 'black') {
+                createBtn.textContent = 'CREATE BLACK WALLPAPER';
+            } else {
+                createBtn.textContent = 'CREATE GREY WALLPAPER';
+            }
+        }
+
+        // Save to localStorage
+        if (save) {
+            localStorage.setItem('mobileTheme', theme);
+        }
+    }
+}
+
+// Mobile Language Toggle (integrates with existing LanguageToggle)
+class MobileLangToggle {
+    constructor() {
+        this.currentLang = localStorage.getItem('selectedLanguage') || 'en';
+        this.init();
+    }
+
+    init() {
+        const langSwitch = document.querySelector('.mobile-lang-switch');
+        if (!langSwitch) return;
+
+        // Set initial state
+        this.setLanguage(this.currentLang, false);
+
+        // Add click listener
+        langSwitch.addEventListener('click', () => {
+            const newLang = this.currentLang === 'en' ? 'ru' : 'en';
+            this.setLanguage(newLang);
+        });
+    }
+
+    setLanguage(lang, save = true) {
+        this.currentLang = lang;
+
+        // Update label
+        const label = document.querySelector('.mobile-lang-label');
+        if (label) {
+            label.textContent = lang === 'en' ? 'ENG' : 'РУС';
+        }
+
+        // Show/hide mobile descriptions
+        document.querySelectorAll('.mobile-description').forEach(el => {
+            if (el.dataset.langText === lang) {
+                el.classList.remove('hidden');
+            } else {
+                el.classList.add('hidden');
+            }
+        });
+
+        // Also update desktop language toggle if exists
+        document.querySelectorAll('[data-lang-text]').forEach(el => {
+            if (!el.classList.contains('mobile-description')) {
+                if (el.dataset.langText === lang) {
+                    el.classList.remove('hidden');
+                } else {
+                    el.classList.add('hidden');
+                }
+            }
+        });
+
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            if (btn.dataset.lang === lang) {
+                btn.classList.add('active');
+            } else {
+                btn.classList.remove('active');
+            }
+        });
+
+        // Save to localStorage
+        if (save) {
+            localStorage.setItem('selectedLanguage', lang);
+        }
+    }
+}
+
+// Mobile Navigation
+class MobileNavigation {
+    constructor() {
+        this.currentIndex = 0;
+        this.init();
+    }
+
+    init() {
+        const leftBtn = document.querySelector('.mobile-nav-left');
+        const rightBtn = document.querySelector('.mobile-nav-right');
+
+        if (!leftBtn || !rightBtn) return;
+
+        leftBtn.addEventListener('click', () => this.navigate(-1));
+        rightBtn.addEventListener('click', () => this.navigate(1));
+    }
+
+    navigate(direction) {
+        // Placeholder for future carousel functionality
+        console.log('Navigate:', direction);
+        // TODO: Implement carousel when multiple previews are added
+    }
+}
+
 // Initialize language toggle when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
     new LanguageToggle();
+    new MobileThemeToggle();
+    new MobileLangToggle();
+    new MobileNavigation();
 
     const baseUrl = window.location.origin;
     const presets = {

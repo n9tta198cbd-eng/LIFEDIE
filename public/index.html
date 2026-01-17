@@ -13,8 +13,88 @@
     <!-- Animated Background Canvas -->
     <canvas id="bg-canvas"></canvas>
 
-    <!-- Main Content -->
-    <main class="main">
+    <!-- Mobile View (shown on mobile only) -->
+    <div class="mobile-view">
+        <!-- Mobile Header -->
+        <header class="mobile-header">
+            <!-- Logo Icon -->
+            <div class="mobile-logo-icon">
+                <svg viewBox="0 0 35 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="5.52" cy="5.50" r="2.75" fill="#9E9E9E"/>
+                    <circle cx="11.42" cy="5.50" r="2.75" fill="#9E9E9E"/>
+                    <circle cx="17.32" cy="5.50" r="2.75" fill="#9E9E9E"/>
+                    <circle cx="23.22" cy="5.50" r="2.75" fill="#9E9E9E"/>
+                    <circle cx="29.12" cy="5.50" r="2.75" fill="#9E9E9E"/>
+                    <circle cx="5.52" cy="11.39" r="2.75" fill="#9E9E9E"/>
+                    <circle cx="11.42" cy="11.39" r="2.75" fill="#9E9E9E"/>
+                    <circle cx="17.32" cy="11.39" r="2.75" fill="#9E9E9E"/>
+                    <circle cx="23.22" cy="11.39" r="2.75" fill="#9E9E9E"/>
+                    <circle cx="29.12" cy="11.39" r="2.75" fill="#9E9E9E"/>
+                    <circle cx="5.52" cy="17.28" r="2.75" fill="#9E9E9E"/>
+                    <circle cx="11.42" cy="17.28" r="2.75" fill="#9E9E9E"/>
+                    <circle cx="17.32" cy="17.28" r="2.75" fill="#9E9E9E"/>
+                    <circle cx="23.22" cy="17.28" r="2.75" fill="#9E9E9E"/>
+                    <circle cx="29.12" cy="17.28" r="2.75" fill="#9E9E9E"/>
+                    <circle cx="17.32" cy="23.17" r="2.75" fill="#9E9E9E"/>
+                </svg>
+            </div>
+
+            <!-- Title -->
+            <h1 class="mobile-title">.SOLUTIONS<br>0→90 CALENDAR</h1>
+
+            <!-- Language Switcher ENG -->
+            <div class="mobile-lang-switch">
+                <span class="mobile-lang-label">ENG</span>
+                <div class="mobile-lang-handle"></div>
+            </div>
+
+            <!-- Description -->
+            <p class="mobile-description" data-lang-text="en">
+                Create iPhone wallpapers that update every day. Track your life in weeks — from
+                1 to 90 years — and see how much time
+                you still have.
+            </p>
+            <p class="mobile-description hidden" data-lang-text="ru">
+                Создай iPhone-обои, которые обновляются каждый день. Отслеживай свою жизнь по неделям — от
+                1 до 90 лет — и смотри, сколько времени
+                ещё есть.
+            </p>
+
+            <!-- Theme Toggle BLACK/GREY -->
+            <div class="mobile-theme-toggle">
+                <button class="mobile-theme-btn active" data-theme="black">BLACK</button>
+                <button class="mobile-theme-btn" data-theme="grey">GREY</button>
+            </div>
+        </header>
+
+        <!-- iPhone Preview Container -->
+        <div class="mobile-preview-container">
+            <!-- Navigation Arrows -->
+            <button class="mobile-nav-arrow mobile-nav-left" aria-label="Previous">
+                <svg width="19" height="39" viewBox="0 0 19 39" fill="none">
+                    <path d="M17 2L2 19.5L17 37" stroke="#E3E3E3" stroke-width="3" stroke-linecap="round"/>
+                </svg>
+            </button>
+
+            <!-- iPhone Preview -->
+            <div class="mobile-iphone-preview">
+                <img src="/iphone-life-calendar.png" alt="iPhone Life Calendar Preview" class="mobile-iphone-img">
+            </div>
+
+            <!-- Navigation Arrows -->
+            <button class="mobile-nav-arrow mobile-nav-right" aria-label="Next">
+                <svg width="19" height="39" viewBox="0 0 19 39" fill="none">
+                    <path d="M2 2L17 19.5L2 37" stroke="#E3E3E3" stroke-width="3" stroke-linecap="round"/>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Create Button -->
+        <button class="mobile-create-btn">CREATE BLACK WALLPAPER</button>
+    </div>
+
+    <!-- Desktop View (shown on desktop only) -->
+    <main class="main desktop-view">
         <!-- Hero Section -->
         <section class="hero">
             <div class="hero-logo">
