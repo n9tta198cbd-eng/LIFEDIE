@@ -218,60 +218,18 @@ class MobileNavigation {
     }
 }
 
-// Mobile Device Selector
-class MobileDeviceSelector {
-    constructor() {
-        this.currentDevice = localStorage.getItem('mobileDevice') || '1179x2556';
-        this.init();
-    }
-
-    init() {
-        const select = document.getElementById('mobile-device');
-        if (!select) return;
-
-        // Set initial value
-        select.value = this.currentDevice;
-
-        // Add change listener
-        select.addEventListener('change', (e) => {
-            this.setDevice(e.target.value);
-        });
-    }
-
-    setDevice(device) {
-        this.currentDevice = device;
-        localStorage.setItem('mobileDevice', device);
-
-        // Update desktop modal device selector if modal is open
-        const desktopDevice = document.getElementById('life-device');
-        if (desktopDevice) {
-            desktopDevice.value = device;
-            // Trigger change event to update URLs
-            desktopDevice.dispatchEvent(new Event('change'));
-        }
-    }
-}
-
 // Initialize language toggle when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
     new LanguageToggle();
     new MobileThemeToggle();
     new MobileLangToggle();
     new MobileNavigation();
-    const mobileDeviceSelector = new MobileDeviceSelector();
 
     // Mobile create buttons - open Life Calendar modal
     document.querySelectorAll('.mobile-create-btn').forEach(btn => {
         btn.addEventListener('click', () => {
             const modal = document.getElementById('modal-life');
             if (modal) {
-                // Sync mobile device selection to desktop modal
-                const mobileDevice = document.getElementById('mobile-device');
-                const desktopDevice = document.getElementById('life-device');
-                if (mobileDevice && desktopDevice) {
-                    desktopDevice.value = mobileDevice.value;
-                }
-
                 modal.classList.add('active');
                 document.body.style.overflow = 'hidden';
                 updateUrls();
