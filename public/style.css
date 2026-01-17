@@ -995,7 +995,7 @@ select {
     white-space: pre-line;
 }
 
-/* Mobile Language Switch (ENG) */
+/* Mobile Language Switch (ENG/РУС) */
 .mobile-lang-switch {
     position: absolute;
     top: 3px;
@@ -1007,10 +1007,9 @@ select {
     border-radius: 20px;
     display: flex;
     align-items: center;
-    justify-content: flex-end;
-    padding-right: 4px;
+    padding: 0 4px;
     cursor: pointer;
-    transform: rotate(180deg);
+    position: relative;
 }
 
 .mobile-lang-label {
@@ -1019,11 +1018,12 @@ select {
     font-size: 16px;
     line-height: 18px;
     color: #9B9B9B;
-    transform: rotate(180deg);
-    margin-right: auto;
-    margin-left: 10px;
+    position: absolute;
+    z-index: 1;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* Handle moves left/right based on language */
 .mobile-lang-handle {
     width: 26px;
     height: 26px;
@@ -1034,6 +1034,28 @@ select {
         -1px 0px 5.5px rgba(0, 0, 0, 0.3),
         inset 0px 0px 0px 1px rgba(255, 255, 255, 0.6),
         inset 0px 1.5px 0px rgba(255, 255, 255, 0.6);
+    position: absolute;
+    left: 4px;
+    transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* When English - handle on right, label on left */
+.mobile-lang-switch[data-lang="en"] .mobile-lang-handle {
+    left: calc(100% - 30px);
+}
+
+.mobile-lang-switch[data-lang="en"] .mobile-lang-label {
+    left: 10px;
+}
+
+/* When Russian - handle on left, label on right */
+.mobile-lang-switch[data-lang="ru"] .mobile-lang-handle {
+    left: 4px;
+}
+
+.mobile-lang-switch[data-lang="ru"] .mobile-lang-label {
+    right: 10px;
+    left: auto;
 }
 
 /* Mobile Description */
@@ -1083,6 +1105,48 @@ select {
 
 .mobile-theme-btn:hover {
     opacity: 0.8;
+}
+
+/* Mobile Device Selector */
+.mobile-device-selector {
+    width: 100%;
+    max-width: 361px;
+    margin: 24px auto 32px;
+}
+
+.mobile-device-label {
+    font-family: 'Helvetica', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 16px;
+    color: #9E9E9E;
+    display: block;
+    margin-bottom: 8px;
+}
+
+.mobile-device-select {
+    width: 100%;
+    height: 44px;
+    background: #FFFFFF;
+    border: 1px solid #E3E3E3;
+    border-radius: 8px;
+    padding: 0 16px;
+    font-family: 'Helvetica', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 19px;
+    color: #000000;
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L6 6L11 1' stroke='%239E9E9E' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+    padding-right: 40px;
+}
+
+.mobile-device-select:focus {
+    outline: none;
+    border-color: #9E9E9E;
 }
 
 /* Mobile Preview Container */

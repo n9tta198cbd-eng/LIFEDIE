@@ -83,20 +83,29 @@ class MobileThemeToggle {
             }
         });
 
-        // Update button text
-        const createBtn = document.querySelector('.mobile-create-btn');
-        if (createBtn) {
-            if (theme === 'black') {
-                createBtn.textContent = 'CREATE BLACK WALLPAPER';
-            } else {
-                createBtn.textContent = 'CREATE GREY WALLPAPER';
-            }
-        }
+        // Update button text based on current language
+        this.updateButtonText();
 
         // Save to localStorage
         if (save) {
             localStorage.setItem('mobileTheme', theme);
         }
+    }
+
+    updateButtonText() {
+        const currentLang = localStorage.getItem('selectedLanguage') || 'en';
+        const createBtns = document.querySelectorAll('.mobile-create-btn');
+
+        createBtns.forEach(btn => {
+            const btnLang = btn.dataset.langText;
+            if (btnLang === currentLang) {
+                if (this.currentTheme === 'black') {
+                    btn.textContent = currentLang === 'en' ? 'CREATE BLACK WALLPAPER' : 'СОЗДАТЬ ЧЕРНЫЕ ОБОИ';
+                } else {
+                    btn.textContent = currentLang === 'en' ? 'CREATE GREY WALLPAPER' : 'СОЗДАТЬ СЕРЫЕ ОБОИ';
+                }
+            }
+        });
     }
 }
 
@@ -123,6 +132,12 @@ class MobileLangToggle {
 
     setLanguage(lang, save = true) {
         this.currentLang = lang;
+
+        // Update switch data-lang attribute for CSS animation
+        const langSwitch = document.querySelector('.mobile-lang-switch');
+        if (langSwitch) {
+            langSwitch.setAttribute('data-lang', lang);
+        }
 
         // Update label
         const label = document.querySelector('.mobile-lang-label');
@@ -158,6 +173,20 @@ class MobileLangToggle {
             }
         });
 
+        // Update create button text based on current theme and language
+        const currentTheme = localStorage.getItem('mobileTheme') || 'black';
+        const createBtns = document.querySelectorAll('.mobile-create-btn');
+        createBtns.forEach(btn => {
+            const btnLang = btn.dataset.langText;
+            if (btnLang === lang) {
+                if (currentTheme === 'black') {
+                    btn.textContent = lang === 'en' ? 'CREATE BLACK WALLPAPER' : 'СОЗДАТЬ ЧЕРНЫЕ ОБОИ';
+                } else {
+                    btn.textContent = lang === 'en' ? 'CREATE GREY WALLPAPER' : 'СОЗДАТЬ СЕРЫЕ ОБОИ';
+                }
+            }
+        });
+
         // Save to localStorage
         if (save) {
             localStorage.setItem('selectedLanguage', lang);
@@ -189,12 +218,66 @@ class MobileNavigation {
     }
 }
 
+// Mobile Device Selector
+class MobileDeviceSelector {
+    constructor() {
+        this.currentDevice = localStorage.getItem('mobileDevice') || '1179x2556';
+        this.init();
+    }
+
+    init() {
+        const select = document.getElementById('mobile-device');
+        if (!select) return;
+
+        // Set initial value
+        select.value = this.currentDevice;
+
+        // Add change listener
+        select.addEventListener('change', (e) => {
+            this.setDevice(e.target.value);
+        });
+    }
+
+    setDevice(device) {
+        this.currentDevice = device;
+        localStorage.setItem('mobileDevice', device);
+
+        // Update desktop modal device selector if modal is open
+        const desktopDevice = document.getElementById('life-device');
+        if (desktopDevice) {
+            desktopDevice.value = device;
+            // Trigger change event to update URLs
+            desktopDevice.dispatchEvent(new Event('change'));
+        }
+    }
+}
+
 // Initialize language toggle when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
     new LanguageToggle();
     new MobileThemeToggle();
     new MobileLangToggle();
     new MobileNavigation();
+    const mobileDeviceSelector = new MobileDeviceSelector();
+
+    // Mobile create buttons - open Life Calendar modal
+    document.querySelectorAll('.mobile-create-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const modal = document.getElementById('modal-life');
+            if (modal) {
+                // Sync mobile device selection to desktop modal
+                const mobileDevice = document.getElementById('mobile-device');
+                const desktopDevice = document.getElementById('life-device');
+                if (mobileDevice && desktopDevice) {
+                    desktopDevice.value = mobileDevice.value;
+                }
+
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+                updateUrls();
+            }
+        });
+    });
 
     const baseUrl = window.location.origin;
     const presets = {
